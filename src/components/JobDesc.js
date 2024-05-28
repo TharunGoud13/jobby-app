@@ -26,7 +26,7 @@ const JobDesc = () => {
         setData(response.data);
         setJobDetails(response.data.job_details);
       });
-  }, []);
+  }, [url, jwtToken]);
 
   console.log("data", data);
   //   console.log("len", data);
@@ -85,7 +85,11 @@ const JobDesc = () => {
               <div style={{ display: "flex", flexWrap: "wrap", gap: "30px" }}>
                 {jobDetails.skills?.map((item) => (
                   <div key={item.id} style={{ display: "flex" }}>
-                    <img src={item.image_url} style={{ height: "60px" }} />
+                    <img
+                      src={item.image_url}
+                      alt="job-details"
+                      style={{ height: "60px" }}
+                    />
                     <span>{item.name}</span>
                   </div>
                 ))}
@@ -93,13 +97,14 @@ const JobDesc = () => {
             </div>
             <div>
               <h1>Life at Company</h1>
-              <div style={{ display: "flex" }}>
+              <Life>
                 <p>{jobDetails.life_at_company?.description}</p>
                 <img
                   src={jobDetails.life_at_company?.image_url}
+                  alt="company-scene"
                   style={{ height: "150px", borderRadius: "4px" }}
                 />
-              </div>
+              </Life>
             </div>
           </JobCard>
         </JobsContainer>
@@ -108,6 +113,14 @@ const JobDesc = () => {
     </Wrapper>
   );
 };
+
+const Life = styled.div`
+  display: flex;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
 const JobsWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -119,6 +132,10 @@ const JobsContainer = styled.div`
   width: 50%;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 
 const RoleContainer = styled.div`
@@ -133,18 +150,6 @@ const JobCard = styled.div`
   width: 100%;
   border-radius: 8px;
   cursor: pointer;
-`;
-
-const ProfileCard = styled.div`
-  background-color: gray;
-  padding: 10px;
-  width: 80%;
-  border-radius: 4px;
-`;
-
-const ProfileContainer = styled.div`
-  width: 30%;
-  margin: 2%;
 `;
 
 const Wrapper = styled.div`

@@ -12,11 +12,13 @@ const NavBar = () => {
   };
   return (
     <Wrapper>
-      <img
-        src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
-        alt="app=logo"
-        style={{ height: "50px" }}
-      />
+      <Link to="/">
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
+          alt="app=logo"
+          style={{ height: "50px" }}
+        />
+      </Link>
       <Tabs>
         <Link to="/">
           <h1>Home</h1>
@@ -38,6 +40,10 @@ const Tabs = styled.div`
   font-size: 20px;
   color: white;
 
+  @media (max-width: 768px) {
+    display: none;
+  }
+
   h1 {
     font-size: 20px;
   }
@@ -51,6 +57,7 @@ const Wrapper = styled.div`
   align-items: center;
   position: sticky;
   top: 0;
+  z-index: 1;
   a {
     color: white;
     text-decoration: none;

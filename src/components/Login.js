@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { Button, Input, Form } from "antd";
 import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { CloseOutlined } from "@ant-design/icons";
 
 const Login = () => {
   const jwtToken = Cookies.get("jwt_token");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showData, setShowData] = useState(false);
 
   const navigate = useNavigate();
 
@@ -41,6 +43,35 @@ const Login = () => {
   return (
     <Wrapper>
       <div>
+        {showData ? (
+          <CardContainer>
+            <div>
+              <p>USERNAME: rahul</p>
+              <p>PASSWORD: rahul@2021</p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                position: "relative",
+                left: "85%",
+                bottom: "85px",
+              }}
+            >
+              <CloseOutlined
+                style={{ color: "white", fontSize: "25px" }}
+                onClick={() => setShowData(false)}
+              />
+            </div>
+          </CardContainer>
+        ) : (
+          <Button
+            type="primary ghost"
+            onClick={() => setShowData(true)}
+            style={{ marginBottom: "10px" }}
+          >
+            Check User Credentials
+          </Button>
+        )}
         <LoginForm>
           <Logo
             src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
@@ -94,18 +125,6 @@ const InputEl = styled(Input)`
   color: #64748b;
 `;
 
-const Image = styled.img`
-  @media (max-width: 768px) {
-    width: 100%;
-    height: 150px;
-  }
-
-  @media (min-width: 769px) {
-    width: 100%;
-    max-width: 500px;
-  }
-`;
-
 const Logo = styled.img`
   text-align: center;
   align-items: center;
@@ -114,12 +133,24 @@ const Logo = styled.img`
 const LoginForm = styled.form`
   background-color: #272727;
   height: 300px;
-  width: 300px;
+  // width: 300px;
   border-radius: 5px;
+  padding: 20px;
   @media (min-width: 769px) {
     //   text-align: center;
     padding: 20px;
     height: 300px;
+  }
+`;
+
+const CardContainer = styled.div`
+  background-color: #272727;
+  padding: 5px;
+
+  border-radius: 4px;
+  margin-bottom: 10px;
+  p {
+    color: white;
   }
 `;
 
@@ -129,6 +160,7 @@ const Wrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     flex-direction: column;

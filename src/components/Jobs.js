@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import NavBar from "./NavBar";
@@ -12,10 +12,9 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
-export const context = createContext();
-
 const Jobs = () => {
   const [data, setData] = useState([]);
+
   const jwtToken = Cookies.get("jwt_token");
   if (jwtToken === undefined) {
     return <Navigate to="/login" />;
@@ -27,6 +26,7 @@ const Jobs = () => {
     .then((response) => {
       setData(response.data);
     });
+
   return (
     <Wrapper>
       <NavBar />
@@ -47,56 +47,54 @@ const Jobs = () => {
         <JobsContainer>
           {console.log("data", data)}
           {data.jobs?.map((item) => (
-            <context.Provider value={item}>
-              <Link to={`/jobs/${item?.id}`}>
-                <JobCard key={item.id}>
-                  <RoleContainer>
-                    <img
-                      src={item?.company_logo_url}
-                      alt="company-logo"
-                      style={{ height: "100px" }}
-                    />
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <h2>{item.title}</h2>
-                      <br />
-                      <div style={{ marginTop: "-32px" }}>
-                        <StarOutlined
-                          style={{
-                            backgroundColor: "orange",
-                            padding: "10px",
-                            borderRadius: "50%",
-                            marginRight: "5px",
-                          }}
-                        />
-                        <span>{item.rating}</span>
-                      </div>
-                    </div>
-                  </RoleContainer>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "20px",
-                      marginTop: "30px",
-                    }}
-                  >
-                    <div>
-                      <EnvironmentOutlined />
-                      <span>{item.location}</span>
-                    </div>
-                    <div>
-                      <MailOutlined />
-                      <span>{item.employment_type}</span>
+            <Link to={`/jobs/${item?.id}`}>
+              <JobCard key={item.id}>
+                <RoleContainer>
+                  <img
+                    src={item?.company_logo_url}
+                    alt="company-logo"
+                    style={{ height: "100px" }}
+                  />
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <h2>{item.title}</h2>
+                    <br />
+                    <div style={{ marginTop: "-32px" }}>
+                      <StarOutlined
+                        style={{
+                          backgroundColor: "orange",
+                          padding: "10px",
+                          borderRadius: "50%",
+                          marginRight: "5px",
+                        }}
+                      />
+                      <span>{item.rating}</span>
                     </div>
                   </div>
-                  <p>{item.package_per_annum}</p>
-                  <hr style={{ color: "white" }} />
+                </RoleContainer>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    marginTop: "30px",
+                  }}
+                >
                   <div>
-                    <p>{item.title}</p>
-                    <p>{item.job_description}</p>
+                    <EnvironmentOutlined />
+                    <span>{item.location}</span>
                   </div>
-                </JobCard>
-              </Link>
-            </context.Provider>
+                  <div>
+                    <MailOutlined />
+                    <span>{item.employment_type}</span>
+                  </div>
+                </div>
+                <p>{item.package_per_annum}</p>
+                <hr style={{ color: "white" }} />
+                <div>
+                  <p>{item.title}</p>
+                  <p>{item.job_description}</p>
+                </div>
+              </JobCard>
+            </Link>
           ))}
         </JobsContainer>
       </JobsWrapper>
@@ -106,12 +104,20 @@ const Jobs = () => {
 
 const JobsWrapper = styled.div`
   display: flex;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const JobsContainer = styled.div`
   gap: 10px;
   margin: 10px;
   width: 50%;
+
+  @media (max-width: 768px) {
+    width: 75%;
+  }
 `;
 
 const RoleContainer = styled.div`
@@ -133,11 +139,22 @@ const ProfileCard = styled.div`
   padding: 10px;
   width: 80%;
   border-radius: 4px;
+  // position: sticky;
+  // top: 20%;
+
+  @media (max-width: 768px) {
+    width: 85%;
+  }
 `;
 
 const ProfileContainer = styled.div`
   width: 30%;
   margin: 2%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 3%;
+  }
 `;
 
 const Wrapper = styled.div`

@@ -34,6 +34,12 @@ const Wrapper = styled.div`
   height: 100vh;
   background-size: cover;
 
+  @media (max-width: 768px) {
+    background-image: url("https://assets.ccbp.in/frontend/react-js/home-sm-bg.png");
+    // height: 100vh;
+    background-size: cover;
+  }
+
   h1,
   p {
     color: white;
@@ -42,10 +48,19 @@ const Wrapper = styled.div`
 
 const Heading = styled.h1`
   font-size: 50px;
+  @media (max-width: 768px) {
+    font-size: 30px;
+    width: 90vw;
+  }
 `;
 
 const Text = styled.p`
   font-size: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+    width: 70vw;
+  }
 `;
 
 const Content = styled.div`

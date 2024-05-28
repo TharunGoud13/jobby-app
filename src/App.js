@@ -4,7 +4,6 @@ import Jobs from "./components/Jobs";
 import Login from "./components/Login";
 import NotFound from "./components/NotFound";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import styled from "styled-components";
 import JobDesc from "./components/JobDesc";
 
 const App = () => {
