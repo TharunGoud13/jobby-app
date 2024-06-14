@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 import Cookies from "js-cookie";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -20,12 +20,15 @@ const NavBar = () => {
         />
       </Link>
       <Tabs>
-        <Link to="/">
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
           <h1>Home</h1>
-        </Link>
-        <Link to="/jobs">
+        </NavLink>
+        <NavLink to="/jobs">
           <h1>Jobs</h1>
-        </Link>
+        </NavLink>
       </Tabs>
       <Button type="primary" onClick={handleLogout}>
         Logout
@@ -39,6 +42,10 @@ const Tabs = styled.div`
   gap: 10px;
   font-size: 20px;
   color: white;
+
+  .active {
+    color: orange;
+  }
 
   @media (max-width: 768px) {
     display: none;

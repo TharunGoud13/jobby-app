@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import NavBar from "./NavBar";
@@ -11,21 +11,30 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import Pagination from "./Pagination";
 
 const Jobs = () => {
   const [data, setData] = useState([]);
+  const [pagination, setPagination] = useState([]);
+  const url = "https://apis.ccbp.in/jobs";
+
+  useEffect(() => {
+    axios
+      .get(url, { headers: { Authorization: `Bearer ${jwtToken}` } })
+      .then((response) => {
+        setPagination(response.data.jobs.slice(0, 5));
+        setData(response.data.jobs);
+      });
+  }, []);
 
   const jwtToken = Cookies.get("jwt_token");
   if (jwtToken === undefined) {
     return <Navigate to="/login" />;
   }
-  const url = "https://apis.ccbp.in/jobs";
 
-  axios
-    .get(url, { headers: { Authorization: `Bearer ${jwtToken}` } })
-    .then((response) => {
-      setData(response.data);
-    });
+  const handlePagination = (pageNumber) => {
+    setPagination(data.slice(pageNumber * 5 - 5, pageNumber * 5));
+  };
 
   return (
     <Wrapper>
@@ -45,9 +54,9 @@ const Jobs = () => {
         </ProfileContainer>
 
         <JobsContainer>
-          {console.log("data", data)}
-          {data.jobs?.map((item) => (
-            <Link to={`/jobs/${item?.id}`}>
+          {console.log(pagination)}
+          {pagination?.map((item) => (
+            <Link to={`/jobs/${item?.id}`} key={item.id}>
               <JobCard key={item.id}>
                 <RoleContainer>
                   <img
@@ -96,6 +105,7 @@ const Jobs = () => {
               </JobCard>
             </Link>
           ))}
+          <Pagination data={data} handlePagination={handlePagination} />
         </JobsContainer>
       </JobsWrapper>
     </Wrapper>
